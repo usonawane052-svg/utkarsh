@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Utkarsh Sonawane</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gd:#1e3d2f;--gm:#2e6047;--gl:#4a8c65;--gp:#d4ead9;--gmist:#f0f7f2;
+  --am:#c8781a;--al:#f5e6cc;--cream:#faf8f3;
+  --tm:#1c2b22;--ts:#5a7060;--b:rgba(30,61,47,0.12);--w:#fff;
+}
+html{scroll-behavior:smooth}
+body{font-family:"DM Sans",sans-serif;background:var(--cream);color:var(--tm);line-height:1.6;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,248,243,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--b);padding:0 2rem;height:58px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:"DM Serif Display",serif;font-size:1.1rem;color:var(--gd);text-decoration:none;letter-spacing:-.02em}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.8rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ts);text-decoration:none;transition:color .2s;position:relative;padding-bottom:2px}
+.nav-links a::after{content:"";position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--gl);border-radius:1px;transform:scaleX(0);transform-origin:left;transition:transform .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--gd)}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hbg span{display:block;width:22px;height:2px;background:var(--gd);border-radius:1px;transition:all .25s}
+.hbg.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hbg.open span:nth-child(2){opacity:0}
+.hbg.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mob{display:none;position:fixed;top:58px;left:0;right:0;background:rgba(250,248,243,.98);backdrop-filter:blur(12px);border-bottom:1px solid var(--b);z-index:99;padding:1rem 2rem;flex-direction:column}
+.mob.open{display:flex}
+.mob a{font-size:.85rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--ts);text-decoration:none;padding:11px 0;border-bottom:1px solid var(--b);transition:color .2s}
+.mob a:last-child{border-bottom:none}
+.mob a:hover{color:var(--gd)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:100px 2rem 4rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 70% 50%,rgba(74,140,101,.07),transparent 70%),radial-gradient(ellipse 50% 50% at 20% 80%,rgba(200,120,26,.05),transparent 60%)}
+.hero-grid{position:absolute;inset:0;z-index:0;background-image:linear-gradient(var(--b) 1px,transparent 1px),linear-gradient(90deg,var(--b) 1px,transparent 1px);background-size:60px 60px;opacity:.4;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%)}
+.hero-inner{position:relative;z-index:1;max-width:1100px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.htag{display:inline-flex;align-items:center;gap:6px;background:var(--gp);color:var(--gm);font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:100px;margin-bottom:1.25rem}
+.hdot{width:6px;height:6px;border-radius:50%;background:var(--gl);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+.hero h1{font-family:"DM Serif Display",serif;font-size:clamp(2.6rem,5vw,3.8rem);line-height:1.08;letter-spacing:-.03em;color:var(--gd);margin-bottom:1.25rem}
+.hero h1 em{font-style:italic;color:var(--gl)}
+.hero p{font-size:1rem;color:var(--ts);max-width:440px;line-height:1.75;margin-bottom:2rem}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn1{background:var(--gd);color:#fff;padding:11px 24px;border-radius:8px;font-size:.88rem;font-weight:500;text-decoration:none;transition:background .2s,transform .15s}
+.btn1:hover{background:var(--gm);transform:translateY(-1px)}
+.btn2{background:transparent;color:var(--gd);padding:11px 24px;border-radius:8px;border:1.5px solid var(--gd);font-size:.88rem;font-weight:500;text-decoration:none;transition:background .2s,transform .15s}
+.btn2:hover{background:var(--gmist);transform:translateY(-1px)}
+
+/* HERO CARD */
+.hcard{background:var(--w);border:1px solid var(--b);border-radius:20px;padding:2rem;box-shadow:0 8px 40px rgba(30,61,47,.08)}
+.hcard-top{display:flex;align-items:center;gap:16px;margin-bottom:1.5rem}
+.av{width:56px;height:56px;border-radius:50%;background:var(--gp);display:flex;align-items:center;justify-content:center;font-family:"DM Serif Display",serif;font-size:1.2rem;color:var(--gd);flex-shrink:0}
+.hcard-name{font-size:1rem;font-weight:600;color:var(--gd)}
+.hcard-sub{font-size:.8rem;color:var(--ts);margin-top:2px}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem}
+.sitem{background:var(--gmist);border-radius:12px;padding:14px 16px}
+.snum{font-size:1.5rem;font-weight:600;color:var(--gd);line-height:1}
+.slbl{font-size:.75rem;color:var(--ts);margin-top:4px;font-weight:500}
+.clist{list-style:none;display:flex;flex-direction:column;gap:8px}
+.citem{display:flex;align-items:center;gap:10px;font-size:.82rem;color:var(--ts)}
+.cicn{width:24px;height:24px;border-radius:6px;background:var(--al);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* SECTIONS */
+section{padding:6rem 2rem}
+.si{max-width:1100px;margin:0 auto}
+.slabel{font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gl);margin-bottom:.5rem}
+.stitle{font-family:"DM Serif Display",serif;font-size:clamp(1.8rem,3vw,2.5rem);letter-spacing:-.02em;color:var(--gd);margin-bottom:.75rem}
+.ssub{color:var(--ts);max-width:540px;line-height:1.75;margin-bottom:3rem}
+.div{border:none;border-top:1px solid var(--b);margin:0 0 3rem}
+
+/* ABOUT */
+#about{background:var(--gd);color:#fff}
+#about .slabel{color:var(--gp)}
+#about .stitle{color:#fff}
+#about .ssub{color:rgba(255,255,255,.65);max-width:640px;margin-bottom:0;font-size:1.05rem;line-height:1.85}
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.itags{display:flex;flex-wrap:wrap;gap:8px;margin-top:2rem}
+.itag{background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.15);padding:6px 14px;border-radius:100px;font-size:.82rem;font-weight:500;display:inline-flex;align-items:center;gap:6px}
+.aright{display:flex;flex-direction:column;gap:16px;margin-top:2.5rem}
+.afact{display:flex;align-items:flex-start;gap:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px}
+.aficn{width:36px;height:36px;border-radius:8px;background:rgba(74,140,101,.4);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.aficn svg{width:18px;height:18px;stroke:#9FE1CB;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.aftitle{font-size:.85rem;font-weight:600;color:#fff;margin-bottom:2px}
+.aftext{font-size:.8rem;color:rgba(255,255,255,.55);line-height:1.5}
+
+/* TIMELINE */
+#experience{background:var(--cream)}
+.tl{position:relative}
+.tl::before{content:"";position:absolute;left:20px;top:8px;bottom:8px;width:1px;background:linear-gradient(to bottom,var(--gl),transparent)}
+.titem{display:flex;gap:2rem;margin-bottom:2.5rem;position:relative}
+.tdot{width:40px;height:40px;border-radius:50%;flex-shrink:0;z-index:1;background:var(--w);border:2px solid var(--gl);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--gd)}
+.tdot.p{background:var(--gd);border-color:var(--gd);color:#fff}
+.tc{flex:1;background:var(--w);border:1px solid var(--b);border-radius:14px;padding:1.5rem;transition:box-shadow .2s,transform .2s}
+.tc:hover{box-shadow:0 6px 24px rgba(30,61,47,.07);transform:translateY(-2px)}
+.th{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.ttitle{font-size:1rem;font-weight:600;color:var(--gd)}
+.tco{font-size:.85rem;color:var(--ts);margin-top:2px}
+.tper{font-size:.75rem;font-weight:500;color:var(--gl);background:var(--gmist);padding:3px 10px;border-radius:100px;white-space:nowrap;flex-shrink:0}
+.tbody{font-size:.88rem;color:var(--ts);line-height:1.7;margin-top:10px}
+.ttags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.tag{font-size:.72rem;font-weight:500;padding:3px 10px;border-radius:100px;background:var(--gmist);color:var(--gm)}
+.tag.a{background:var(--al);color:var(--am)}
+
+/* EDUCATION */
+#education{background:var(--gmist)}
+.egrid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.ecard{background:var(--w);border:1px solid var(--b);border-radius:16px;padding:1.75rem;transition:box-shadow .2s,transform .2s}
+.ecard:hover{box-shadow:0 6px 24px rgba(30,61,47,.08);transform:translateY(-2px)}
+.edeg{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gl);margin-bottom:6px}
+.eschool{font-family:"DM Serif Display",serif;font-size:1.2rem;color:var(--gd);margin-bottom:4px}
+.eper{font-size:.8rem;color:var(--ts);margin-bottom:1rem}
+.ecourses{font-size:.82rem;color:var(--ts);line-height:1.65}
+.eproj{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--b);font-size:.8rem;color:var(--ts)}
+.eproj strong{color:var(--gd);font-weight:600}
+
+/* SKILLS */
+#skills{background:var(--cream)}
+.skgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.skcard{background:var(--w);border:1px solid var(--b);border-radius:14px;padding:1.5rem}
+.skicn{width:40px;height:40px;border-radius:10px;margin-bottom:12px;display:flex;align-items:center;justify-content:center}
+.skcard h3{font-size:.9rem;font-weight:600;color:var(--gd);margin-bottom:10px}
+.skitems{display:flex;flex-direction:column;gap:6px}
+.skitem{display:flex;align-items:center;justify-content:space-between}
+.sknm{font-size:.82rem;color:var(--ts)}
+.sktrk{width:80px;height:4px;background:var(--gp);border-radius:2px;overflow:hidden}
+.skbar{height:100%;background:var(--gl);border-radius:2px}
+
+/* PROJECTS */
+#projects{background:var(--gmist)}
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+.pcard{background:var(--w);border:1px solid var(--b);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s}
+.pcard:hover{box-shadow:0 8px 30px rgba(30,61,47,.09);transform:translateY(-3px)}
+.pnum{font-size:.7rem;font-weight:700;color:var(--gl);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.ptitle{font-family:"DM Serif Display",serif;font-size:1.1rem;color:var(--gd);margin-bottom:8px}
+.pdesc{font-size:.84rem;color:var(--ts);line-height:1.7;flex:1}
+.pfoot{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+
+/* CERTS */
+#certifications{background:var(--al)}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.ccard{background:var(--w);border:1px solid rgba(200,120,26,.15);border-radius:14px;padding:1.5rem;display:flex;align-items:flex-start;gap:14px}
+.cbadge{width:44px;height:44px;border-radius:10px;flex-shrink:0;background:var(--al);border:1.5px solid rgba(200,120,26,.3);display:flex;align-items:center;justify-content:center}
+.cname{font-size:.9rem;font-weight:600;color:var(--gd);margin-bottom:4px}
+.cbody{font-size:.78rem;color:var(--ts);line-height:1.5}
+
+/* CONTACT */
+#contact{background:var(--gd)}
+#contact .slabel{color:var(--gp)}
+#contact .stitle{color:#fff}
+.congrid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.conintro{color:rgba(255,255,255,.65);line-height:1.8;font-size:.95rem}
+.conlinks{display:flex;flex-direction:column;gap:12px;margin-top:1.5rem}
+.conlink{display:flex;align-items:center;gap:12px;color:rgba(255,255,255,.8);text-decoration:none;font-size:.9rem;padding:12px 16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;transition:background .2s}
+.conlink:hover{background:rgba(255,255,255,.1)}
+.conicn{width:32px;height:32px;border-radius:8px;background:rgba(74,140,101,.4);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+footer{background:var(--gd);border-top:1px solid rgba(255,255,255,.08);padding:1.5rem 2rem;text-align:center;color:rgba(255,255,255,.35);font-size:.8rem}
+.fi{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.fi.v{opacity:1;transform:translateY(0)}
+@media(max-width:860px){
+  .hero-inner,.agrid,.congrid{grid-template-columns:1fr}
+  .hcard{display:none}
+  .egrid,.skgrid,.pgrid,.cgrid{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .hbg{display:flex}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#home" class="logo">Utkarsh Sonawane</a>
+  <ul class="nav-links" id="nl">
+    <li><a href="#about" data-s="about">About</a></li>
+    <li><a href="#experience" data-s="experience">Experience</a></li>
+    <li><a href="#education" data-s="education">Education</a></li>
+    <li><a href="#skills" data-s="skills">Skills</a></li>
+    <li><a href="#projects" data-s="projects">Projects</a></li>
+    <li><a href="#contact" data-s="contact">Contact</a></li>
+  </ul>
+  <button class="hbg" id="hbg"><span></span><span></span><span></span></button>
+</nav>
+<div class="mob" id="mob">
+  <a href="#about" data-m>About</a>
+  <a href="#experience" data-m>Experience</a>
+  <a href="#education" data-m>Education</a>
+  <a href="#skills" data-m>Skills</a>
+  <a href="#projects" data-m>Projects</a>
+  <a href="#contact" data-m>Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="fi">
+      <div class="htag"><span class="hdot"></span>MSc Nutrition &amp; Food Systems &middot; Ghent University</div>
+      <h1>Hi, I&apos;m Utkarsh<br>a food technology &amp; nutrition student<br><em>hungry to learn.</em></h1>
+      <p>I&apos;m doing my MSc in Nutrition &amp; Food Systems at Ghent University, currently interning in kombucha R&amp;D at Rish Labs in Brussels. With hands-on QA experience at Coca-Cola and a pharma lab, I&apos;m driven by fermentation, product development, and sustainable food systems.</p>
+      <div class="ctas">
+        <a href="#contact" class="btn1">Get in touch</a>
+        <a href="#experience" class="btn2">See what I&apos;ve done</a>
+      </div>
+    </div>
+    <div class="fi" style="transition-delay:.15s">
+      <div class="hcard">
+        <div class="hcard-top">
+          <div class="av">US</div>
+          <div>
+            <div class="hcard-name">Utkarsh Sonawane</div>
+            <div class="hcard-sub">Ghent, Belgium</div>
+          </div>
+        </div>
+        <div class="sgrid">
+          <div class="sitem"><div class="snum">2+</div><div class="slbl">Years lab exp.</div></div>
+          <div class="sitem"><div class="snum">3</div><div class="slbl">Certifications</div></div>
+          <div class="sitem"><div class="snum">5</div><div class="slbl">Food projects</div></div>
+          <div class="sitem"><div class="snum">2026</div><div class="slbl">Graduating</div></div>
+        </div>
+        <ul class="clist">
+          <li class="citem"><div class="cicn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#c8781a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>Kombucha R&amp;D Rish Labs, Brussels</li>
+          <li class="citem"><div class="cicn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#c8781a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>FOSTAC Food Safety Supervisor</li>
+          <li class="citem"><div class="cicn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#c8781a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>HACCP &amp; ISO 22000:2018</li>
+          <li class="citem"><div class="cicn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#c8781a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>Novel Technologies Sustainable Food</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="si">
+    <div class="agrid">
+      <div class="fi">
+        <div class="slabel">About me</div>
+        <h2 class="stitle" style="color:#fff">Food science isn&apos;t just my degree it&apos;s genuinely what I think about.</h2>
+        <p class="ssub">I grew up curious about how things are made, and food turned out to be the most interesting answer. I did my B.Tech in Food Technology in India and I&apos;m now a year into my MSc at Ghent University. Getting to work at Coca-Cola&apos;s production facility and in a pharma QC lab before graduating has been incredibly eye-opening.</p>
+        <div class="itags">
+          <span class="itag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>Fermentation</span>
+          <span class="itag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20"/></svg>Sustainable Food</span>
+          <span class="itag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v11a3 3 0 0 0 6 0V3"/><path d="M6 3h12"/></svg>Product Development</span>
+          <span class="itag">Football</span>
+          <span class="itag">Basketball</span>
+          <span class="itag">Badminton</span>
+        </div>
+      </div>
+      <div class="aright fi" style="transition-delay:.1s">
+        <div class="afact">
+          <div class="aficn"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+          <div><div class="aftitle">MSc at Ghent, graduating 2026</div><div class="aftext">Studying Nutrition &amp; Food Systems food marketing, human nutrition, epidemiology. I really enjoy the breadth of it.</div></div>
+        </div>
+        <div class="afact">
+          <div class="aficn"><svg viewBox="0 0 24 24"><path d="M9 3v11a3 3 0 0 0 6 0V3"/><path d="M6 3h12"/><path d="M5 21h14"/></svg></div>
+          <div><div class="aftitle">From pharma QC to kombucha R&amp;D</div><div class="aftext">Microbiological testing at Coca-Cola, water QC at Om Pharmaceuticals, and now kombucha R&amp;D at Rish Labs. Each role has added a new layer to how I think about food science.</div></div>
+        </div>
+        <div class="afact">
+          <div class="aficn"><svg viewBox="0 0 24 24"><path d="M8 2h8v4a4 4 0 0 1-4 4 4 4 0 0 1-4-4V2z"/><path d="M10 10v2a4 4 0 0 0 4 4h2"/><path d="M6 22h12"/><path d="M12 16v6"/></svg></div>
+          <div><div class="aftitle">Fermentation &amp; beverages genuinely excite me</div><div class="aftext">Something clicked doing beverage analysis at Coca-Cola. The science behind fermentation and flavour development I could spend a career on it.</div></div>
+        </div>
+        <div class="afact">
+          <div class="aficn"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div><div class="aftitle">India to Belgium comfortable anywhere</div><div class="aftext">Moving to Ghent to study was one of the best decisions I&apos;ve made. I adapt quickly and work well in multicultural teams.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="si">
+    <div class="slabel fi">Relevant experience</div>
+    <h2 class="stitle fi">From kombucha R&amp;D<br>to large-scale production.</h2>
+    <p class="ssub fi">Four roles each building a different dimension of food science, quality, and product development.</p>
+    <hr class="div">
+    <div class="tl">
+      <div class="titem fi">
+        <div class="tdot p">1</div>
+        <div class="tc">
+          <div class="th"><div><div class="ttitle">R&amp;D Intern Kombucha &amp; Product Development</div><div class="tco">Rish Labs &middot; Brussels, Belgium</div></div><div class="tper">Apr 2025 &ndash; Present</div></div>
+          <div class="tbody">Developing and testing kombucha formulations through structured trials and sensory evaluation. Monitoring fermentation parameters (pH, temperature, time) to ensure consistency, and supporting production, bottling, and scale-up. This is exactly the intersection of science and craft I&apos;ve been working towards.</div>
+          <div class="ttags"><span class="tag">Fermentation</span><span class="tag">Product Development</span><span class="tag">Sensory Evaluation</span><span class="tag">HACCP</span><span class="tag a">Rish Labs</span></div>
+        </div>
+      </div>
+      <div class="titem fi" style="transition-delay:.08s">
+        <div class="tdot p">2</div>
+        <div class="tc">
+          <div class="th"><div><div class="ttitle">Food Service Associate Team Leader</div><div class="tco">Barouche Pita &middot; Ghent, Belgium</div></div><div class="tper">Feb 2025 &ndash; Present</div></div>
+          <div class="tbody">Leading a small team in a high-volume food service environment while studying full-time. Managing daily operations, training new staff, improving workflow efficiency, and making sure food safety compliance never slips it&apos;s added a real operational dimension to my technical background.</div>
+          <div class="ttags"><span class="tag">Team Leadership</span><span class="tag">Food Safety</span><span class="tag">Operations</span><span class="tag">Staff Training</span></div>
+        </div>
+      </div>
+      <div class="titem fi" style="transition-delay:.16s">
+        <div class="tdot">3</div>
+        <div class="tc">
+          <div class="th"><div><div class="ttitle">Quality Control Intern</div><div class="tco">Om Pharmaceuticals &middot; Bangalore, India</div></div><div class="tper">Sep 2023 &ndash; Mar 2024</div></div>
+          <div class="tbody">Six months that shaped how I think about quality systems. Running microbiological tests, water quality analysis, and working under GMP standards taught me that documentation and process reliability matter just as much as the lab work itself.</div>
+          <div class="ttags"><span class="tag">Microbiological Testing</span><span class="tag">Water Analysis</span><span class="tag">GMP</span><span class="tag">ISO Compliance</span><span class="tag a">Pharmaceutical</span></div>
+        </div>
+      </div>
+      <div class="titem fi" style="transition-delay:.24s">
+        <div class="tdot">4</div>
+        <div class="tc">
+          <div class="th"><div><div class="ttitle">Quality Assurance Intern</div><div class="tco">Coca-Cola Beverages &middot; Bangalore, India</div></div><div class="tper">Jan 2022 &ndash; Apr 2022</div></div>
+          <div class="tbody">Seeing beverage production at that scale was genuinely eye-opening. Microbiological and chemical analysis across production lines, in-process quality monitoring, and exposure to large-scale beverage systems sparked a curiosity about beverage science I&apos;m still chasing.</div>
+          <div class="ttags"><span class="tag">Chemical Analysis</span><span class="tag">Beverage QA</span><span class="tag">Large-scale Processing</span><span class="tag a">Coca-Cola</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="si">
+    <div class="slabel fi">Education</div>
+    <h2 class="stitle fi">Currently studying.<br>Ready to apply it.</h2>
+    <p class="ssub fi">A B.Tech in Food Technology from India, now building on it with an MSc in Nutrition &amp; Food Systems at Ghent.</p>
+    <hr class="div">
+    <div class="egrid">
+      <div class="ecard fi">
+        <div class="edeg">MSc In Progress</div>
+        <div class="eschool">Ghent University</div>
+        <div class="eper">Ghent, Belgium &middot; Sep 2024 &ndash; Present</div>
+        <div style="font-weight:600;color:var(--gm);font-size:.88rem;margin-bottom:10px">Nutrition &amp; Food Systems</div>
+        <div class="ecourses"><strong style="font-size:.78rem;color:var(--tm);text-transform:uppercase;letter-spacing:.05em">Coursework</strong><br><br>Food Marketing &amp; Consumer Behaviour &middot; Human Nutrition &middot; Nutritional Epidemiology<br><br>Active participation in group projects involving collaboration, data analysis, and presentations.</div>
+      </div>
+      <div class="ecard fi" style="transition-delay:.1s">
+        <div class="edeg">B.Tech Graduated 2022</div>
+        <div class="eschool">MGM College of Food Technology</div>
+        <div class="eper">Aurangabad, India &middot; Graduated Jun 2022</div>
+        <div style="font-weight:600;color:var(--gm);font-size:.88rem;margin-bottom:10px">Food Technology</div>
+        <div class="ecourses"><strong style="font-size:.78rem;color:var(--tm);text-transform:uppercase;letter-spacing:.05em">Coursework</strong><br><br>Industrial Microbiology &middot; Food Packaging Technologies &middot; Food Marketing</div>
+        <div class="eproj"><strong>Final Year Project:</strong> Soya Bean Fortified Cookies product development, nutritional analysis, and quality evaluation.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="si">
+    <div class="slabel fi">What I bring</div>
+    <h2 class="stitle fi">Skills I&apos;ve actually<br>used in the field.</h2>
+    <p class="ssub fi">Real lab practice from a pharma QC lab and Coca-Cola production, backed by certified food safety training.</p>
+    <hr class="div">
+    <div class="skgrid">
+      <div class="skcard fi">
+        <div class="skicn" style="background:var(--gmist)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2e6047" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v11a3 3 0 0 0 6 0V3"/><path d="M6 3h12"/><path d="M5 21h14"/></svg></div>
+        <h3>Laboratory &amp; Analysis</h3>
+        <div class="skitems">
+          <div class="skitem"><span class="sknm">Microbiological Analysis</span><div class="sktrk"><div class="skbar" style="width:90%"></div></div></div>
+          <div class="skitem"><span class="sknm">Chemical Analysis</span><div class="sktrk"><div class="skbar" style="width:82%"></div></div></div>
+          <div class="skitem"><span class="sknm">Sensory Evaluation</span><div class="sktrk"><div class="skbar" style="width:80%"></div></div></div>
+          <div class="skitem"><span class="sknm">Product Development</span><div class="sktrk"><div class="skbar" style="width:75%"></div></div></div>
+        </div>
+      </div>
+      <div class="skcard fi" style="transition-delay:.1s">
+        <div class="skicn" style="background:var(--al)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c8781a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>Food Safety &amp; Compliance</h3>
+        <div class="skitems">
+          <div class="skitem"><span class="sknm">HACCP Systems</span><div class="sktrk"><div class="skbar" style="width:88%"></div></div></div>
+          <div class="skitem"><span class="sknm">ISO 22000:2018</span><div class="sktrk"><div class="skbar" style="width:85%"></div></div></div>
+          <div class="skitem"><span class="sknm">Quality Documentation</span><div class="sktrk"><div class="skbar" style="width:80%"></div></div></div>
+          <div class="skitem"><span class="sknm">Regulatory Compliance</span><div class="sktrk"><div class="skbar" style="width:75%"></div></div></div>
+        </div>
+      </div>
+      <div class="skcard fi" style="transition-delay:.2s">
+        <div class="skicn" style="background:var(--gp)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2e6047" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <h3>Tools &amp; Communication</h3>
+        <div class="skitems">
+          <div class="skitem"><span class="sknm">Microsoft Excel</span><div class="sktrk"><div class="skbar" style="width:78%"></div></div></div>
+          <div class="skitem"><span class="sknm">PowerPoint</span><div class="sktrk"><div class="skbar" style="width:75%"></div></div></div>
+          <div class="skitem"><span class="sknm">Report Writing</span><div class="sktrk"><div class="skbar" style="width:82%"></div></div></div>
+          <div class="skitem"><span class="sknm">Leadership &amp; Teamwork</span><div class="sktrk"><div class="skbar" style="width:88%"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="si">
+    <div class="slabel fi">Projects</div>
+    <h2 class="stitle fi">Things I&apos;ve made,<br>tested, and tasted.</h2>
+    <p class="ssub fi">University assignments and personal experiments getting hands-on outside of class is where I&apos;ve learned the most.</p>
+    <hr class="div">
+    <div class="pgrid">
+      <div class="pcard fi">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" style="margin-bottom:10px"><rect width="40" height="40" rx="10" fill="#f0f7f2"/><circle cx="20" cy="18" r="6" stroke="#2e6047" stroke-width="1.4"/><circle cx="20" cy="18" r="2" fill="#4a8c65" opacity=".5"/><path d="M20 12v2M20 22v2M14 18h2M24 18h2" stroke="#4a8c65" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <div class="pnum">Project 01</div>
+        <div class="ptitle">Environmental Microbiological Analysis</div>
+        <div class="pdesc">Independent analysis of microbiological growth in beverages under varying conditions at Coca-Cola Beverages. Investigated how contamination variables affect quality control outcomes in large-scale production.</div>
+        <div class="pfoot"><span class="tag">Microbiology</span><span class="tag a">Coca-Cola</span><span class="tag">QC Research</span></div>
+      </div>
+      <div class="pcard fi" style="transition-delay:.08s">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" style="margin-bottom:10px"><rect width="40" height="40" rx="10" fill="#f5e6cc"/><rect x="10" y="14" width="20" height="16" rx="3" stroke="#c8781a" stroke-width="1.4"/><path d="M14 20h12M14 24h8" stroke="#c8781a" stroke-width="1.3" stroke-linecap="round"/><path d="M15 14v-3a5 5 0 0 1 10 0v3" stroke="#c8781a" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <div class="pnum">Project 02</div>
+        <div class="ptitle">Sensory Evaluation of Egg Replacers in Sponge Cake</div>
+        <div class="pdesc">Developed sponge cake formulations using egg substitutes and ran a full sensory evaluation texture, taste, aroma, and overall acceptability. Compared alternative formulations against conventional products.</div>
+        <div class="pfoot"><span class="tag">Sensory Evaluation</span><span class="tag">Product Dev</span><span class="tag a">Egg Replacers</span></div>
+      </div>
+      <div class="pcard fi" style="transition-delay:.16s">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" style="margin-bottom:10px"><rect width="40" height="40" rx="10" fill="#f0f7f2"/><path d="M10 28h20M13 28V18l7-8 7 8v10" stroke="#2e6047" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="17" y="22" width="6" height="6" rx="1" stroke="#4a8c65" stroke-width="1.2"/></svg>
+        <div class="pnum">Project 03 Final Year</div>
+        <div class="ptitle">Soya Bean Fortified Cookies</div>
+        <div class="pdesc">End-to-end product development using soybean flour to create protein-enriched cookies. Formulation, nutritional analysis, quality evaluation, and sensory testing the full cycle.</div>
+        <div class="pfoot"><span class="tag">Functional Foods</span><span class="tag">Protein Fortification</span><span class="tag a">Final Year</span></div>
+      </div>
+      <div class="pcard fi" style="transition-delay:.24s">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" style="margin-bottom:10px"><rect width="40" height="40" rx="10" fill="#e1f5ee"/><circle cx="20" cy="14" r="5" stroke="#0F6E56" stroke-width="1.4"/><path d="M12 32c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#0F6E56" stroke-width="1.4" stroke-linecap="round"/><path d="M20 19v5M16 28h8" stroke="#0F6E56" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <div class="pnum">Project 04 University</div>
+        <div class="ptitle">Post-Harvest Resilience Project, Lagos</div>
+        <div class="pdesc">Designed a food systems intervention to reduce post-harvest losses in Lagos, Nigeria. Training approaches, cold storage solutions, stakeholder analysis, and supply chain assessment.</div>
+        <div class="pfoot"><span class="tag">Food Systems</span><span class="tag">Supply Chain</span><span class="tag a">Lagos, Nigeria</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="si">
+    <div class="slabel fi">Certifications</div>
+    <h2 class="stitle fi">Formally qualified<br>in food safety.</h2>
+    <p class="ssub fi">Certified in the frameworks that food and pharma teams actually use day-to-day before anyone asked me to.</p>
+    <hr class="div">
+    <div class="cgrid">
+      <div class="ccard fi">
+        <div class="cbadge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c8781a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <div><div class="cname">FOSTAC Certificate</div><div class="cbody">Food Safety Supervisor Certificate of Competence formal qualification for overseeing food safety in production environments under FSSAI guidelines.</div></div>
+      </div>
+      <div class="ccard fi" style="transition-delay:.1s">
+        <div class="cbadge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c8781a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <div><div class="cname">HACCP &amp; ISO 22000:2018</div><div class="cbody">Internal Auditing Training hazard analysis, critical control points, and full ISO 22000:2018 food safety management system audit methodology.</div></div>
+      </div>
+      <div class="ccard fi" style="transition-delay:.2s">
+        <div class="cbadge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c8781a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <div><div class="cname">Novel Technologies for Sustainable Food Systems</div><div class="cbody">Emerging food processing technologies, sustainability frameworks, and innovations across the food systems landscape.</div></div>
+      </div>
+      <div class="ccard fi" style="transition-delay:.3s">
+        <div class="cbadge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c8781a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M12 8v4M12 16h.01"/></svg></div>
+        <div><div class="cname">Food &amp; Dairy Processing for Health &amp; Wealth Development</div><div class="cbody">Applied understanding of food and dairy processing techniques, health implications, and the economic dimensions of the food industry.</div></div>
+      </div>
+      <div class="ccard fi" style="transition-delay:.4s">
+        <div class="cbadge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c8781a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+        <div><div class="cname">Introduction to Therapeutic Diet</div><div class="cbody">Foundations of therapeutic nutrition dietary modifications for clinical conditions, nutritional therapy, and patient-centred dietary planning.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="si">
+    <div class="congrid">
+      <div class="fi">
+        <div class="slabel">Get in touch</div>
+        <h2 class="stitle">Let&apos;s connect.</h2>
+        <p class="conintro">Whether you&apos;re a company, researcher, or fellow food enthusiast I&apos;m always happy to connect. Feel free to reach out via email, phone, or LinkedIn.</p>
+        <p class="conintro" style="margin-top:1rem">Based in Ghent, Belgium.</p>
+      </div>
+      <div class="fi" style="transition-delay:.1s;margin-top:2.5rem">
+        <div class="conlinks">
+          <a href="mailto:usonawane581@gmail.com" class="conlink"><div class="conicn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>usonawane581@gmail.com</a>
+          <a href="tel:+32472513912" class="conlink"><div class="conicn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>+32 472 51 39 12</a>
+          <a href="https://www.linkedin.com/in/utkarsh-sonawane-b98a07240/" target="_blank" rel="noopener" class="conlink"><div class="conicn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>linkedin.com/in/utkarsh-sonawane-b98a07240</a>
+          <a href="#home" class="conlink"><div class="conicn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></div>Ghent, Belgium</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 Utkarsh Sonawane &middot; MSc Nutrition &amp; Food Systems &middot; Ghent University</p>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add("v"); }), {threshold:.12});
+document.querySelectorAll(".fi").forEach(el => obs.observe(el));
+const hbg = document.getElementById("hbg");
+const mob = document.getElementById("mob");
+hbg.addEventListener("click", () => { hbg.classList.toggle("open"); mob.classList.toggle("open"); });
+document.querySelectorAll("[data-m]").forEach(a => a.addEventListener("click", () => { hbg.classList.remove("open"); mob.classList.remove("open"); }));
+const NH = 58;
+document.querySelectorAll("a[href^='#']").forEach(l => l.addEventListener("click", e => {
+  const id = l.getAttribute("href").slice(1);
+  const t = document.getElementById(id);
+  if(!t) return;
+  e.preventDefault();
+  window.scrollTo({top: t.getBoundingClientRect().top + window.scrollY - NH, behavior:"smooth"});
+}));
+const secs = ["home","about","experience","education","skills","projects","certifications","contact"];
+const nas = document.querySelectorAll("#nl a[data-s], #mob a[data-m]");
+const spy = new IntersectionObserver(e => e.forEach(x => {
+  if(x.isIntersecting) {
+    const id = x.target.id;
+    nas.forEach(a => { const s = a.getAttribute("data-s") || a.getAttribute("href").slice(1); a.classList.toggle("active", s === id); });
+  }
+}), {rootMargin:"-40% 0px -55% 0px"});
+secs.forEach(id => { const el = document.getElementById(id); if(el) spy.observe(el); });
+</script>
+</body>
+</html>
